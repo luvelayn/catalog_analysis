@@ -84,21 +84,23 @@ movies = [
 ]
 
 
-def average_rating(movies):
+def average_rating(movies: list[dict]) -> float:
     total_rating = sum(movie["rating"] for movie in movies)
     return round(total_rating / len(movies), 1)
 
 
-def catalog_age_stats(movies, current_year=2026):
+def catalog_age_stats(
+    movies: list[dict], current_year: int = 2026
+) -> tuple[int, int, int]:
     ages = [current_year - movie["year"] for movie in movies]
     return min(ages), max(ages), math.ceil(sum(ages) / len(ages))
 
 
-def duration_in_hours(minutes):
+def duration_in_hours(minutes: int) -> str:
     return f"{minutes // 60}ч {minutes % 60}"
 
 
-def rating_tier(rating):
+def rating_tier(rating: float) -> str:
     if rating >= 7:
         return "шедевр" if rating >= 9 else "хорошо"
     elif rating >= 5:
@@ -107,7 +109,7 @@ def rating_tier(rating):
         return "слабо"
 
 
-def decade_label(year):
+def decade_label(year: int) -> str:
     match year:
         case _ if year > 2020:
             return "новые"
@@ -117,7 +119,7 @@ def decade_label(year):
             return "недавние"
 
 
-def count_long_movies(movies, threshold=120):
+def count_long_movies(movies: list[dict], threshold: int = 120) -> int:
     count = 0
     for movie in movies:
         if movie["duration_min"] > threshold:
