@@ -97,7 +97,7 @@ def catalog_age_stats(
 
 
 def duration_in_hours(minutes: int) -> str:
-    return f"{minutes // 60}ч {minutes % 60}"
+    return f"{minutes // 60}ч {minutes % 60}м"
 
 
 def rating_tier(rating: float) -> str:
