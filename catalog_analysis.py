@@ -1,3 +1,5 @@
+import math
+
 movies = [
     {
         "title": "The Dune Chronicles",
@@ -82,8 +84,63 @@ movies = [
 ]
 
 
+def average_rating(movies):
+    total_rating = sum(movie["rating"] for movie in movies)
+    return round(total_rating / len(movies), 1)
+
+
+def catalog_age_stats(movies, current_year=2026):
+    ages = [current_year - movie["year"] for movie in movies]
+    return min(ages), max(ages), math.ceil(sum(ages) / len(ages))
+
+
+def duration_in_hours(minutes):
+    return f"{minutes // 60}ч {minutes % 60}"
+
+
+def rating_tier(rating):
+    if rating >= 7:
+        return "шедевр" if rating >= 9 else "хорошо"
+    elif rating >= 5:
+        return "средне"
+    else:
+        return "слабо"
+
+
+def decade_label(year):
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if year < 2015:
+            return "старые"
+        case _:
+            return "недавние"
+
+
+def count_long_movies(movies, threshold=120):
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshold:
+            count += 1
+    return count
+
+
 def main():
-    print("Hello from catalog-analysis!")
+    print("Все фильмы, кроме комедий:")
+    for movie in movies:
+        if "comedy" in movie["genres"]:
+            continue
+        print(f"\u2022 {movie['title']}")
+
+    print("\nФильмы с рейтингом выше 9.0:")
+    i = 0
+    while i < len(movies):
+        if movies[i]["rating"] > 9:
+            print(f"\u2022 {movies[i]['title']}")
+            break
+        i += 1
+    else:
+        print("Шедевров не найдено")
 
 
 if __name__ == "__main__":
