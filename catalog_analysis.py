@@ -127,6 +127,25 @@ def count_long_movies(movies: list[dict], threshold: int = 120) -> int:
     return count
 
 
+def normalize_title(title: str) -> str:
+    return " ".join([word[0].upper() + word[1:] for word in title.split()])
+
+
+def make_slug(title: str) -> str:
+    return title.lower().replace(" ", "-")
+
+
+def format_report_line(movie: dict) -> str:
+    title = normalize_title(movie["title"])
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"]))
+
+    return (
+        f'"{title}" ({movie["year"]}) — '
+        f"{movie['rating']}/10, {duration}, жанры: {genres}"
+    )
+
+
 def main():
     print("Все фильмы, кроме комедий:")
     for movie in movies:
