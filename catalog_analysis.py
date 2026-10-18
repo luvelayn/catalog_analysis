@@ -196,7 +196,7 @@ def iter_high_rated(movies: list[dict], min_rating: float = 8.0) -> iter:
 
 
 def main():
-    print("Все фильмы, кроме комедий:")
+    print("Все фильмы кроме комедий:")
     for movie in movies:
         if "comedy" in movie["genres"]:
             continue
