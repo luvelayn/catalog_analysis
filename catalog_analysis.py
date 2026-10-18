@@ -175,7 +175,7 @@ def actor_filmography(movies: list[dict]) -> dict[str, list]:
 
 
 def all_genres(movies: list[dict]) -> set[str]:
-    genres = {}
+    genres = set()
     for movie in movies:
         genres.update(movie["genres"])
     return genres
