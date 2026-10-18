@@ -161,13 +161,13 @@ def main():
     for movie in movies:
         if "comedy" in movie["genres"]:
             continue
-        print(f"\u2022 {movie['title']}")
+        print("\u2022", movie["title"])
 
     print("\nФильмы с рейтингом выше 9.0:")
     i = 0
     while i < len(movies):
         if movies[i]["rating"] > 9:
-            print(f"\u2022 {movies[i]['title']}")
+            print("\u2022", movies[i]["title"])
             break
         i += 1
     else:
