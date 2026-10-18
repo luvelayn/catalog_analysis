@@ -146,6 +146,16 @@ def format_report_line(movie: dict) -> str:
     )
 
 
+def titles_sorted_by_rating(movies: list[dict]) -> list[str]:
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    return [movie["title"] for movie in sorted_movies]
+
+
+def top_n_by_rating(movies: list[dict], n: int = 3):
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)[:n]
+    return [(movie["title"], movie["rating"]) for movie in sorted_movies]
+
+
 def main():
     print("Все фильмы, кроме комедий:")
     for movie in movies:
