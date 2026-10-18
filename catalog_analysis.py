@@ -156,6 +156,24 @@ def top_n_by_rating(movies: list[dict], n: int = 3) -> list[tuple]:
     return [(movie["title"], movie["rating"]) for movie in sorted_movies]
 
 
+def count_by_genre(movies: list[dict]) -> dict[str, int]:
+    genres_dict = {}
+    for movie in movies:
+        for genre in movie["genres"]:
+            curr_val = genres_dict.get(genre, 0)
+            genres_dict[genre] = curr_val + 1
+    return genres_dict
+
+
+def actor_filmography(movies: list[dict]) -> dict[str, list]:
+    actors_dict = {}
+    for movie in movies:
+        for actor in movie["actors"]:
+            curr_films = actors_dict.get(actor, [])
+            actors_dict[actor] = curr_films + [movie["title"]]
+    return actors_dict
+
+
 def main():
     print("Все фильмы, кроме комедий:")
     for movie in movies:
@@ -172,6 +190,15 @@ def main():
         i += 1
     else:
         print("Шедевров не найдено")
+
+    print("\nФильмы с рейтингом выше среднего:")
+    avg_rating = average_rating(movies)
+    above_avg = {
+        movie["title"]: movie["rating"]
+        for movie in movies
+        if movie["rating"] > avg_rating
+    }
+    print(above_avg)
 
 
 if __name__ == "__main__":
