@@ -195,6 +195,25 @@ def iter_high_rated(movies: list[dict], min_rating: float = 8.0) -> iter:
             yield movie
 
 
+def build_report(movies: list[dict]):
+    age_stats = catalog_age_stats(movies)
+    top_3 = top_n_by_rating(movies)
+    movies_by_title = {movie["title"]: movie for movie in movies}
+    genre_stats = count_by_genre(movies)
+    genre_stats_keys = sorted(genre_stats, key=lambda g: (-genre_stats[g], g))
+
+    print("ОТЧЕТ ПО КАТАЛОГУ")
+    print("Средний рейтинг:", average_rating(movies))
+    print(f"Средний возраст фильмов: {age_stats[-1]} лет")
+    print("\nТоп-3 фильма:")
+    for title, _ in top_3:
+        print("\u2022", format_report_line(movies_by_title[title]))
+    print("\nКоличество фильмов по жанрам:")
+    for key in genre_stats_keys:
+        print(f"\u2022 {key} — {genre_stats.get(key)}")
+    print("\nВсе жанры каталога:", ", ".join(sorted(all_genres(movies))))
+
+
 def main():
     print("Все фильмы кроме комедий:")
     for movie in movies:
@@ -227,6 +246,10 @@ def main():
 
     sum_duration = sum(movie["duration_min"] for movie in movies if movie["rating"] > 7)
     print("\nСуммарная длительность фильмов с рейтингом выше 7.0:", sum_duration)
+
+    print()
+
+    build_report(movies)
 
 
 if __name__ == "__main__":
