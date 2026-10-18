@@ -189,6 +189,12 @@ def genres_only_in_one(movies_a: list[dict], movies_b: list[dict]) -> set[str]:
     return all_genres(movies_a) - all_genres(movies_b)
 
 
+def iter_high_rated(movies: list[dict], min_rating: float = 8.0) -> iter:
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+
 def main():
     print("Все фильмы, кроме комедий:")
     for movie in movies:
@@ -214,6 +220,13 @@ def main():
         if movie["rating"] > avg_rating
     }
     print(above_avg)
+
+    print("\nФильмы с рейтингом не ниже 8.0:")
+    for movie in iter_high_rated(movies):
+        print("\u2022", format_report_line(movie))
+
+    sum_duration = sum(movie["duration_min"] for movie in movies if movie["rating"] > 7)
+    print("\nСуммарная длительность фильмов с рейтингом выше 7.0:", sum_duration)
 
 
 if __name__ == "__main__":
