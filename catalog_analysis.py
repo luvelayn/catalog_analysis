@@ -136,7 +136,7 @@ def count_long_movies(movies: list[dict], threshold: int = 120) -> int:
 
 
 def normalize_title(title: str) -> str:
-    return " ".join([word[0].upper() + word[1:] for word in title.split()])
+    return " ".join(word[0].upper() + word[1:] for word in title.split())
 
 
 def make_slug(title: str) -> str:
@@ -168,8 +168,7 @@ def count_by_genre(movies: list[dict]) -> dict[str, int]:
     genres_dict = {}
     for movie in movies:
         for genre in movie["genres"]:
-            curr_val = genres_dict.get(genre, 0)
-            genres_dict[genre] = curr_val + 1
+            genres_dict[genre] = genres_dict.get(genre, 0) + 1
     return genres_dict
 
 
@@ -177,8 +176,7 @@ def actor_filmography(movies: list[dict]) -> dict[str, list[str]]:
     actors_dict = {}
     for movie in movies:
         for actor in movie["actors"]:
-            curr_films = actors_dict.get(actor, [])
-            actors_dict[actor] = curr_films + [movie["title"]]
+            actors_dict.setdefault(actor, []).append(movie["title"])
     return actors_dict
 
 
