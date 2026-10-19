@@ -120,10 +120,10 @@ def decade_label(year: int) -> str:
     match year:
         case _ if year > 2020:
             return "новые"
+        case _ if 2015 <= year <= 2020:
+            return "недавние"
         case _ if year < 2015:
             return "старые"
-        case _:
-            return "недавние"
 
 
 def count_long_movies(movies: list[dict], threshold: int = 120) -> int:
