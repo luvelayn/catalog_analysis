@@ -154,14 +154,16 @@ def format_report_line(movie: dict) -> str:
     )
 
 
+def sort_by_rating(movies: list[dict]) -> list[dict]:
+    return sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+
+
 def titles_sorted_by_rating(movies: list[dict]) -> list[str]:
-    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
-    return [movie["title"] for movie in sorted_movies]
+    return [movie["title"] for movie in sort_by_rating(movies)]
 
 
 def top_n_by_rating(movies: list[dict], n: int = 3) -> list[tuple[str, float]]:
-    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)[:n]
-    return [(movie["title"], movie["rating"]) for movie in sorted_movies]
+    return [(movie["title"], movie["rating"]) for movie in sort_by_rating(movies)[:n]]
 
 
 def count_by_genre(movies: list[dict]) -> dict[str, int]:
