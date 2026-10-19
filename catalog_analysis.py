@@ -84,7 +84,13 @@ movies = [
 ]
 
 
+def _ensure_not_empty(movies: list[dict]) -> None:
+    if not movies:
+        raise ValueError("Каталог фильмов пуст")
+
+
 def average_rating(movies: list[dict]) -> float:
+    _ensure_not_empty(movies)
     total_rating = sum(movie["rating"] for movie in movies)
     return round(total_rating / len(movies), 1)
 
@@ -92,6 +98,7 @@ def average_rating(movies: list[dict]) -> float:
 def catalog_age_stats(
     movies: list[dict], current_year: int = 2026
 ) -> tuple[int, int, int]:
+    _ensure_not_empty(movies)
     ages = [current_year - movie["year"] for movie in movies]
     return max(ages), min(ages), math.ceil(sum(ages) / len(ages))
 
