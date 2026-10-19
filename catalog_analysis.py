@@ -93,7 +93,7 @@ def catalog_age_stats(
     movies: list[dict], current_year: int = 2026
 ) -> tuple[int, int, int]:
     ages = [current_year - movie["year"] for movie in movies]
-    return min(ages), max(ages), math.ceil(sum(ages) / len(ages))
+    return max(ages), min(ages), math.ceil(sum(ages) / len(ages))
 
 
 def duration_in_hours(minutes: int) -> str:
