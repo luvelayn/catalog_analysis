@@ -127,6 +127,24 @@ def decade_label(year: int) -> str:
             return "старые"
 
 
+def print_non_comedies(movies: list[dict]) -> None:
+    for movie in movies:
+        if "comedy" in movie["genres"]:
+            continue
+        print("•", normalize_title(movie["title"]))
+
+
+def print_first_masterpiece(movies: list[dict], threshold: float = 9.0) -> None:
+    i = 0
+    while i < len(movies):
+        if movies[i]["rating"] > threshold:
+            print("•", normalize_title(movies[i]["title"]))
+            break
+        i += 1
+    else:
+        print("Шедевров не найдено")
+
+
 def count_long_movies(movies: list[dict], threshold: int = 120) -> int:
     count = 0
     for movie in movies:
@@ -182,6 +200,15 @@ def actor_filmography(movies: list[dict]) -> dict[str, list[str]]:
     return actors_dict
 
 
+def above_average(movies: list[dict]) -> dict[str, float]:
+    avg_rating = average_rating(movies)
+    return {
+        movie["title"]: movie["rating"]
+        for movie in movies
+        if movie["rating"] > avg_rating
+    }
+
+
 def all_genres(movies: list[dict]) -> set[str]:
     genres = set()
     for movie in movies:
@@ -224,29 +251,15 @@ def build_report(movies: list[dict]) -> None:
 
 def main() -> None:
     print("Все фильмы кроме комедий:")
-    for movie in movies:
-        if "comedy" in movie["genres"]:
-            continue
-        print("\u2022", movie["title"])
+    print_non_comedies(movies)
 
     print("\nФильмы с рейтингом выше 9.0:")
-    i = 0
-    while i < len(movies):
-        if movies[i]["rating"] > 9:
-            print("\u2022", movies[i]["title"])
-            break
-        i += 1
-    else:
-        print("Шедевров не найдено")
+    print_first_masterpiece(movies)
+    print("\nФильмы с рейтингом выше 9.5:")
+    print_first_masterpiece(movies, threshold=9.5)
 
     print("\nФильмы с рейтингом выше среднего:")
-    avg_rating = average_rating(movies)
-    above_avg = {
-        movie["title"]: movie["rating"]
-        for movie in movies
-        if movie["rating"] > avg_rating
-    }
-    print(above_avg)
+    print(above_average(movies))
 
     print("\nФильмы с рейтингом не ниже 8.0:")
     for movie in iter_high_rated(movies):
