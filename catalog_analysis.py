@@ -1,4 +1,5 @@
 import math
+from collections.abc import Iterator
 
 movies = [
     {
@@ -158,7 +159,7 @@ def titles_sorted_by_rating(movies: list[dict]) -> list[str]:
     return [movie["title"] for movie in sorted_movies]
 
 
-def top_n_by_rating(movies: list[dict], n: int = 3) -> list[tuple]:
+def top_n_by_rating(movies: list[dict], n: int = 3) -> list[tuple[str, float]]:
     sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)[:n]
     return [(movie["title"], movie["rating"]) for movie in sorted_movies]
 
@@ -172,7 +173,7 @@ def count_by_genre(movies: list[dict]) -> dict[str, int]:
     return genres_dict
 
 
-def actor_filmography(movies: list[dict]) -> dict[str, list]:
+def actor_filmography(movies: list[dict]) -> dict[str, list[str]]:
     actors_dict = {}
     for movie in movies:
         for actor in movie["actors"]:
@@ -196,13 +197,13 @@ def genres_only_in_one(movies_a: list[dict], movies_b: list[dict]) -> set[str]:
     return all_genres(movies_a) - all_genres(movies_b)
 
 
-def iter_high_rated(movies: list[dict], min_rating: float = 8.0) -> iter:
+def iter_high_rated(movies: list[dict], min_rating: float = 8.0) -> Iterator[dict]:
     for movie in movies:
         if movie["rating"] >= min_rating:
             yield movie
 
 
-def build_report(movies: list[dict]):
+def build_report(movies: list[dict]) -> None:
     age_stats = catalog_age_stats(movies)
     top_3 = top_n_by_rating(movies)
     movies_by_title = {movie["title"]: movie for movie in movies}
@@ -221,7 +222,7 @@ def build_report(movies: list[dict]):
     print("\nВсе жанры каталога:", ", ".join(sorted(all_genres(movies))))
 
 
-def main():
+def main() -> None:
     print("Все фильмы кроме комедий:")
     for movie in movies:
         if "comedy" in movie["genres"]:
